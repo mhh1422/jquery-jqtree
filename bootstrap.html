@@ -23,13 +23,14 @@
                     <div id="tree"></div>
                 </div>
                 <div class="col-xs-12 col-sm-8">
+                    <p class="lead">Selected:</p>
+                    <p id="selected"></p>
                     <p class="lead">Code:</p>
                     <pre>$.getJSON("data.json", function (data) {
 &nbsp;&nbsp;&nbsp;&nbsp;$("#tree").jqtree({
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data: data
 &nbsp;&nbsp;&nbsp;&nbsp;});
 });</pre>
-                    <br />
                     <p class="lead">Data:</p>
                     Find it <a href="data.json">here</a>.
                 </div>
@@ -41,6 +42,8 @@
                     $("#tree").jqtree({
                         data: data
                     });
+                }).on("selected",".item", function(a,b,c){
+                    console.log(this, a, b, c);
                 });
             });
         </script>
