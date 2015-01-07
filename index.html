@@ -1,25 +1,52 @@
 <html>
     <head>
         <title>jQuery jqtree test</title>
-        <style>
-            .jqtree, .jqtree .jqtree-list-container { list-style: none; padding-left: 15px; }
-            .jqtree .jqtree-item > .handler{ display: inline-block; width: 10px; height: 2px; margin:4px 0px; background-color: #eee; cursor: pointer; }
-            .jqtree .jqtree-item.out > .handler{ display: inline-block; width: 10px; height: 10px; background-color: gray; }
-            .jqtree .jqtree-item.in > .handler{ display: inline-block; width: 10px; height: 10px; background-color: navy; }
-            .jqtree .jqtree-item.selected > .selector { font-weight: bold; }
-            .jqtree .jqtree-item.matched > .selector { color: red; }
-        </style>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="src/css/jquery-jqtree-bootstrap.min.css">
     </head>
     <body>
         <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
         <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <script src="src/jquery-jqtree.min.js"></script>
-        <div id="tree"></div>
+        <script src="src/jquery-jqtree-bootstrap.min.js"></script>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>jQuery jqtree example</h1>
+                <p>Bootstrap example</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <h3>Result:</h3>
+                    <div id="tree"></div>
+                    <br />
+                    <p class="text-muted">Find data <a href="data.json">here</a>.</p>
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    <h3>Selected:</h3>
+                    <p class="well" id="selected">None</p>
+                    <h3>Methods:</h3>
+                    <button type="button" onclick='$("#tree").jqtree("collapse", null, 1);' class="btn btn-default">Collapse all</button> <code>$("#tree").jqtree("collapse");</code>
+                    <h3>Code:</h3>
+                    <pre>$.getJSON("data.json", function (data) {
+&nbsp;&nbsp;&nbsp;&nbsp;$("#tree").jqtree({
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data: data
+&nbsp;&nbsp;&nbsp;&nbsp;});
+});</pre>
+                </div>
+                <div class="col-xs-12 clearfix clear-fix clear_fix"></div>
+            </div>
+        </div>
         <script type="text/javascript">
             $(document).ready(function () {
                 $.getJSON("data.json", function (data) {
                     $("#tree").jqtree({
                         data: data
+                    }).on("selected", ".item", function (event, node) {
+                        $("#selected").text(node.id + ": " + node.text);
                     });
                 });
             });
