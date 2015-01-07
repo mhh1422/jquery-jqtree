@@ -23,23 +23,32 @@
 (function ($) {
 
     //dump function
-    var vfunc = function vfunc() {};
+    var vfunc = function vfunc() {
+    };
 
     //For this closestChild function, thanks to: http://goo.gl/VD7AOx
     if (!$.fn.hasOwnProperty('closestChild')) {
-        $.fn.closestChild = function (filter) {
-            var $found = $(), $currentSet = this; // Current place
-            while ($currentSet.length) {
-                $found = $currentSet.filter(filter);
-                if ($found.length)
-                    break;  // At least one match: break loop
-                // Get all children of the current set
-                $currentSet = $currentSet.children();
+        $.fn.closestChild = function (filter, separate) {
+            if (separate && separate == true) {
+                var $result = $();
+                this.each(function () {
+                    $result.pushStack($(this).closestChild(filter, false)); //add it
+                });
+                return $result;
+            } else {
+                var $found = $(), $currentSet = this; // Current place
+                while ($currentSet.length) {
+                    $found = $currentSet.filter(filter);
+                    if ($found.length)
+                        break;  // At least one match: break loop
+                    // Get all children of the current set
+                    $currentSet = $currentSet.children();
+                }
+                return $found.first(); // return first one.
             }
-            return $found.first(); // Return first match of the collection
         };
     }
-    
+
     //htmlize is the recursive function used to create the tree nodes
     var htmlize = function (items, options, level, data) {
         var picker = options.picker, pattern = options.itemRegex, itemIndex, itemObject, itemChildren, itemHtml, replacement, html = "";
@@ -75,7 +84,7 @@
         }
         return html;
     };
-    
+
     //the functions used for the methods of the library
     functions = {
         init: function (opts) {
@@ -117,10 +126,13 @@
                 item = $(jqtree).find('#jqtree-list-item-' + to);
                 items = $(item).parents('.' + options.replacements.list_class);
             } else {
-                items = $(jqtree).find('.jqtree-list-container');
+                items = $(jqtree).find('.' + options.replacements.list_class);
             }
             items = items.filter(':hidden');
-            items.slideDown(300, callback).closest('.' + options.replacements.item_class).removeClass('out').addClass('in').trigger('expanded', jqtree, options, item);
+            items.slideDown(300, function () {
+                $(this).closest('.' + options.replacements.item_class).removeClass('out').addClass('in').trigger('expanded', jqtree, options, item).closestChild('.' + options.replacements.handler_collapsed_class).addClass(options.replacements.handler_expanded_class).removeClass(options.replacements.handler_collapsed_class);
+                callback && typeof callback === 'function' && callback.call(this, jqtree, options);
+            });
             return this;
         },
         collapse: function (from, to, callback) {
@@ -129,17 +141,14 @@
                 fromItem = $(jqtree).find('#jqtree-list-item-' + from);
                 items = $(fromItem).parents('.' + options.replacements.list_class);
             } else {
-                items = $(jqtree).find('.jqtree-list-container');
+                items = $(jqtree).find('.' + options.replacements.list_class);
             }
-            if (to) {
-                toItem = $(jqtree).find('#jqtree-list-item-' + to);
-                items = items.not($(toItem).parents('.' + options.replacements.list_class));
-            }
-            items = items.filter(':visible');
-            items.first().slideUp(300, function () {
-                items.hide().closest('.' + options.replacements.item_class).removeClass('in').addClass('out').trigger('collapsed', jqtree, options, item);
-                if (typeof callback === 'function')
-                    callback.call(this);
+            toItem = $(jqtree).find('#jqtree-list-item-' + (to ? to : 1));
+            items = items.not(jqtree.closestChild('.' + options.replacements.list_class)).not($(toItem).parents('.' + options.replacements.list_class)).filter(':visible');
+            items.slideUp(300, function () {
+                $(this).find('.' + options.replacements.list_class).addBack().hide().closest('.' + options.replacements.item_class).removeClass('in').addClass('out').trigger('collapsed', jqtree, options, item);
+                $(this).closest('.' + options.replacements.item_class).find('.' + options.replacements.handler_expanded_class).removeClass(options.replacements.handler_expanded_class).addClass(options.replacements.handler_collapsed_class);
+                callback && typeof callback === 'function' && callback.call(this, jqtree, options);
             });
             return this;
         }
@@ -182,8 +191,8 @@
         templates: {
             list: "<ul class='((class)) ((list_class))'>((items))</ul>",
             emptyItem: "<li class='((item_class)) ((item_class_empty)) :class' data-id=':id' style=':style' id='jqtree-list-item-:id'><span class='handler empty'></span><span class='((selector_class))'>:text</span></li>",
-            closeItem: "<li class='item list ((item_class)) ((item_class_full)) :class' data-id=':id' style=':style' id='jqtree-list-item-:id'><span class='handler ((handler_collapsed_class))'></span><span class='selector'>:text</span><ul style=':ul_style' class='jqtree-list-container ((list_class))'>:items</ul></li>",
-            openItem: "<li class='item list ((item_class)) ((item_class_full)) :class' data-id=':id' style=':style' id='jqtree-list-item-:id'><span class='handler ((handler_expanded_class))'></span><span class='selector'>:text</span><ul style=':ul_style' class='jqtree-list-container ((list_class))'>:items</ul></li>",
+            closeItem: "<li class='item list ((item_class)) ((item_class_full)) :class' data-id=':id' style=':style' id='jqtree-list-item-:id'><span class='handler ((handler_collapsed_class))'></span><span class='selector'>:text</span><ul style=':ul_style' class='((list_class))'>:items</ul></li>",
+            openItem: "<li class='item list ((item_class)) ((item_class_full)) :class' data-id=':id' style=':style' id='jqtree-list-item-:id'><span class='handler ((handler_expanded_class))'></span><span class='selector'>:text</span><ul style=':ul_style' class='((list_class))'>:items</ul></li>",
         },
         picker: function (item) {
             return item.children;
@@ -194,13 +203,9 @@
             toggle: function (e) {
                 var jqtree = $(this).closest('.jqtree-root'), options = jqtree.data('jqtree'), item = $(this).closest('.' + options.replacements.item_class), first = item.children().closestChild('.' + options.replacements.item_class);
                 if (item.hasClass('in')) {
-                    functions.collapse.call(this, first.data('id'), item.data('id'), function () {
-                        item.closestChild(options.handlerSelector).removeClass(options.replacements.handler_expanded_class).addClass(options.replacements.handler_collapsed_class);
-                    });
+                    functions.collapse.call(this, first.data('id'), item.data('id'));
                 } else {
-                    functions.expand.call(this, first.data('id'), function () {
-                        item.closestChild(options.handlerSelector).addClass(options.replacements.handler_expanded_class).removeClass(options.replacements.handler_collapsed_class);
-                    });
+                    functions.expand.call(this, first.data('id'));
                 }
                 e.preventDefault();
                 e.stopPropagation();
