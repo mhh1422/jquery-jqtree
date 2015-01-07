@@ -31,7 +31,17 @@
                     },
                     {
                         "text": "Alkhor",
-                        "id": 9
+                        "id": 9,
+                        "children": [
+                            {
+                                "text": "Horizon towers",
+                                "id": 21
+                            },
+                            {
+                                "text": "Alkhor towers",
+                                "id": 22
+                            }
+                        ]
                     },
                     {
                         "text": "Rashediyah",

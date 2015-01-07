@@ -32,7 +32,12 @@
                     <h3>Selected:</h3>
                     <p class="well" id="selected">None</p>
                     <h3>Methods:</h3>
-                    <button type="button" onclick='$("#tree").jqtree("collapse");' class="btn btn-default">Collapse all</button> <code>$("#tree").jqtree("collapse");</code>
+                    <button type="button" onclick='$("#tree").jqtree("collapse");' class="btn btn-primary">Collapse all</button> <code>$("#tree").jqtree("collapse");</code><br />
+                    <button type="button" onclick='$("#tree").jqtree("collapse",21);' class="btn btn-primary">Collapse one only</button> <code>$("#tree").jqtree("collapse",21/*id*/);</code><br />
+                    <button type="button" onclick='$("#tree").jqtree("collapse",21,4);' class="btn btn-primary">Collapse one to another</button> <code>$("#tree").jqtree("collapse",21/*id*/,4/*id*/);</code><br />
+                    <button type="button" onclick='$("#tree").jqtree("expand");' class="btn btn-primary">Expand all</button> <code>$("#tree").jqtree("expand");</code><br />
+                    <button type="button" onclick='$("#tree").jqtree("expand",21);' class="btn btn-primary">Expand one only</button> <code>$("#tree").jqtree("expand", 21/*id*/);</code><br />
+                    <button type="button" onclick='$("#tree").jqtree("select",21);' class="btn btn-primary">Select one</button> <code>$("#tree").jqtree("select", 21/*id*/);</code><br />
                     <h3>Code:</h3>
                     <pre>$.getJSON("data.json", function (data) {
 &nbsp;&nbsp;&nbsp;&nbsp;$("#tree").jqtree({
