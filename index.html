@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>jQuery jqtree test</title>
+        <style>
+            .jqtree, .jqtree .jqtree-list-container { list-style: none; padding-left: 15px; }
+            .jqtree .jqtree-item > .handler{ display: inline-block; width: 10px; height: 2px; margin:4px 0px; background-color: #eee; cursor: pointer; }
+            .jqtree .jqtree-item.out > .handler{ display: inline-block; width: 10px; height: 10px; background-color: gray; }
+            .jqtree .jqtree-item.in > .handler{ display: inline-block; width: 10px; height: 10px; background-color: navy; }
+            .jqtree .jqtree-item.selected > .selector { font-weight: bold; }
+            .jqtree .jqtree-item.matched > .selector { color: red; }
+        </style>
+    </head>
+    <body>
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="src/jquery-jqtree.min.js"></script>
+        <div id="tree"></div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.getJSON("data.json", function (data) {
+                    $("#tree").jqtree({
+                        data: data
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

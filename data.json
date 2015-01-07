@@ -1,0 +1,88 @@
+[
+    {
+        "text": "United Arab Emirates",
+        "id": 1,
+        "children": [
+            {
+                "text": "Dubai",
+                "id": 2,
+                "children": [
+                    {
+                        "text": "Business Bay",
+                        "id": 5
+                    },
+                    {
+                        "text": "Jumeirah Lake Towers",
+                        "id": 6
+                    },
+                    {
+                        "text": "Discovery Gardens",
+                        "id": 7
+                    }
+                ]
+            },
+            {
+                "text": "Ajman",
+                "id": 4,
+                "children": [
+                    {
+                        "text": "Nuaymieah",
+                        "id": 8
+                    },
+                    {
+                        "text": "Alkhor",
+                        "id": 9
+                    },
+                    {
+                        "text": "Rashediyah",
+                        "id": 10
+                    }
+
+                ]
+            }
+        ]
+    },
+    {
+        "text": "Saudi Arabia",
+        "id": 11,
+        "children": [
+            {
+                "text": "Riyadh",
+                "id": 12,
+                "children": [
+                    {
+                        "text": "Sulaymaniah",
+                        "id": 15
+                    },
+                    {
+                        "text": "Ulaya",
+                        "id": 16
+                    },
+                    {
+                        "text": "Malaz",
+                        "id": 17
+                    }
+                ]
+            },
+            {
+                "text": "Najran",
+                "id": 14,
+                "children": [
+                    {
+                        "text": "Al Balad",
+                        "id": 18
+                    },
+                    {
+                        "text": "Faisaliyah",
+                        "id": 19
+                    },
+                    {
+                        "text": "Dahda",
+                        "id": 20
+                    }
+
+                ]
+            }
+        ]
+    }
+]
