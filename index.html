@@ -3,6 +3,7 @@
         <title>jQuery jqtree test</title>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="src/css/jquery-jqtree-bootstrap.min.css">
+        <!--<link type="text/css" rel="stylesheet" href="../jqtree/src/css/jquery-jqtree-bootstrap.css">-->
     </head>
     <body>
         <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -10,7 +11,9 @@
         <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <script src="src/jquery-jqtree.min.js"></script>
+        <!--<script src="../jqtree/src/jquery-jqtree.js"></script>-->
         <script src="src/jquery-jqtree-bootstrap.min.js"></script>
+        <!--<script src="../jqtree/src/jquery-jqtree-bootstrap.js"></script>-->
         <div class="jumbotron">
             <div class="container">
                 <h1>jQuery jqtree example</h1>
@@ -29,7 +32,7 @@
                     <h3>Selected:</h3>
                     <p class="well" id="selected">None</p>
                     <h3>Methods:</h3>
-                    <button type="button" onclick='$("#tree").jqtree("collapse", null, 1);' class="btn btn-default">Collapse all</button> <code>$("#tree").jqtree("collapse");</code>
+                    <button type="button" onclick='$("#tree").jqtree("collapse");' class="btn btn-default">Collapse all</button> <code>$("#tree").jqtree("collapse");</code>
                     <h3>Code:</h3>
                     <pre>$.getJSON("data.json", function (data) {
 &nbsp;&nbsp;&nbsp;&nbsp;$("#tree").jqtree({
